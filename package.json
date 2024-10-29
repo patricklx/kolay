@@ -52,7 +52,7 @@
     },
     "./setup": {
       "types": "./src/browser/virtual/setup.d.ts",
-      "default": "./src/browser/virtual/empty.js"
+      "default": "./src/browser/virtual/does-not-exist.js"
     },
     "./test-support": {
       "types": "./src/browser/test-support.d.ts",
@@ -61,6 +61,9 @@
     "./build/legacy": {
       "types": "./declarations/plugins/legacy/index.d.cts",
       "default": "./src/plugins/legacy/index.cjs"
+    },
+    "./*": {
+      "default": "./src/does-not-exist/*"
     }
   },
   "files": [
@@ -143,6 +146,7 @@
     "turbo": "^1.13.3",
     "typescript": "^5.3.3",
     "vite": "^5.3.2",
+    "send": "^1.1.0",
     "vitest": "^1.5.2",
     "webpack": "^5.90.3"
   },

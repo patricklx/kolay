@@ -1,0 +1,79 @@
+import { defineConfig } from 'vite';
+import {
+  resolver,
+  hbs,
+  scripts,
+  templateTag,
+  optimizeDeps,
+  compatPrebuild,
+  assets,
+  contentFor,
+} from '@embroider/vite';
+import { babel } from '@rollup/plugin-babel';
+import { kolay } from "kolay/vite";
+
+const extensions = [
+  '.mjs',
+  '.gjs',
+  '.js',
+  '.mts',
+  '.gts',
+  '.ts',
+  '.hbs',
+  '.json',
+];
+
+const optimizeOpts = optimizeDeps();
+optimizeOpts.esbuildOptions.target = 'esnext';
+
+export default defineConfig(({ mode }) => {
+  return {
+    resolve: {
+      extensions,
+    },
+    plugins: [
+      kolay({
+        src: "public/docs",
+        groups: [
+          {
+            name: "Runtime",
+            src: "../ui/docs",
+          },
+        ],
+        packages: ["kolay", "ember-primitives", "ember-resources"],
+      }),
+      hbs(),
+      templateTag(),
+      scripts(),
+      resolver(),
+      compatPrebuild(),
+      assets(),
+      contentFor(),
+
+      babel({
+        babelHelpers: 'runtime',
+        extensions,
+      }),
+    ],
+    optimizeDeps: optimizeOpts,
+    server: {
+      port: 4200,
+    },
+    build: {
+      target: 'esnext',
+      outDir: 'dist',
+      rollupOptions: {
+        input: {
+          main: 'index.html',
+          ...(shouldBuildTests(mode)
+            ? { tests: 'tests/index.html' }
+            : undefined),
+        },
+      },
+    },
+  };
+});
+
+function shouldBuildTests(mode) {
+  return mode !== 'production' || process.env.FORCE_BUILD_TESTS;
+}

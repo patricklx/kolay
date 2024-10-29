@@ -1,11 +1,20 @@
 'use strict';
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const { maybeEmbroider } = require('@embroider/test-setup');
 const path = require('path');
 const fs = require('fs');
 
+const USE_WEBPACK = Boolean(process.env.WEBPACK);
+
 module.exports = async function (defaults) {
-  const { readPackageUpSync } = await import('read-package-up');
+  if (!USE_WEBPACK) {
+    const app = new EmberApp(defaults, {
+      // Add options here
+    });
+
+    return maybeEmbroider(app);
+  }
 
   const app = new EmberApp(defaults, {
     // Add options here
@@ -38,7 +47,8 @@ module.exports = async function (defaults) {
       })(),
     },
     'ember-cli-babel': {
-      enableTypeScriptTransform: true,
+      disableDecoratorTransforms: true,
+      enableTypeScriptTransform: true
     },
     autoImport: {
       watchedDependencies: ['kolay', '@universal-ember/kolay-ui'],
