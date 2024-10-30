@@ -44,7 +44,7 @@ export const markdownPages = (options) => {
         if (file.endsWith('.json') || file.endsWith('.md') || file.endsWith('.jsonc')) {
           server.ws.send({
             type: 'full-reload',
-            path: '*'
+            path: '*',
           });
         }
       },
@@ -56,7 +56,7 @@ export const markdownPages = (options) => {
               const assetUrl = req.originalUrl.split('?')[0] || '';
 
               if (assetUrl === `/${destination}/${name}`) {
-                const reshaped = await discover({src, groups});
+                const reshaped = await discover({ src, groups });
 
                 res.setHeader('content-type', 'application/json');
                 return res.end(JSON.stringify(reshaped, null, 2));
@@ -147,6 +147,6 @@ export const markdownPages = (options) => {
             return json;
           }
         `,
-      }),
+    }),
   };
 };
