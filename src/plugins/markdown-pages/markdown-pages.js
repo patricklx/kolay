@@ -53,7 +53,7 @@ export const markdownPages = (options) => {
         return () => {
           server.middlewares.use(async (req, res, next) => {
             if (req.originalUrl && req.originalUrl.length > 1) {
-              const assetUrl = req.originalUrl.split('?')[0];
+              const assetUrl = req.originalUrl.split('?')[0] || '';
 
               if (assetUrl === `/${destination}/${name}`) {
                 const reshaped = await discover({src, groups});
@@ -67,7 +67,7 @@ export const markdownPages = (options) => {
                 const g = groups.find((group) => {
                   // discover mutates the groups array
                   if (group.name === 'root') return;
-                  if (group.name === groupName) return true;
+                  return group.name === groupName;
                 });
 
                 if (g) {
