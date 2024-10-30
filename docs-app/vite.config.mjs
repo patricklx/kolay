@@ -37,7 +37,7 @@ export default defineConfig(({ mode }) => {
         groups: [
           {
             name: "Runtime",
-            src: "../ui/docs",
+            src: "./node_modules/@universal-ember/kolay-ui/docs",
           },
         ],
         packages: ["kolay", "ember-primitives", "ember-resources"],
@@ -58,6 +58,14 @@ export default defineConfig(({ mode }) => {
     optimizeDeps: optimizeOpts,
     server: {
       port: 4200,
+      watch: {
+        ignored: [
+          '!**/node_modules/**',
+          (p) => {
+            return p.includes('node_modules') && !p.includes('@universal-ember/kolay-ui');
+          },
+        ]
+      }
     },
     build: {
       target: 'esnext',
