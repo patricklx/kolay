@@ -13,7 +13,7 @@ const SECRET_INTERNAL_IMPORT = 'kolay/manifest:virtual';
 
 /** @type {(options: import('./types.ts').MarkdownPagesOptions) => import('unplugin').UnpluginOptions} */
 export const markdownPages = (options) => {
-  let { src, dest, name, groups } = options ?? {};
+  let { src, dest, name, groups, baseUrl } = options ?? {};
 
   const destination = dest ?? 'kolay-manifest';
 
@@ -142,7 +142,7 @@ export const markdownPages = (options) => {
       importPath: SECRET_INTERNAL_IMPORT,
       content: stripIndent`
           export const load = async () => {
-            let request = await fetch('/${fileName}', {
+            let request = await fetch('${baseUrl || '/'}${fileName}', {
               headers: {
                 Accept: 'application/json',
               },
