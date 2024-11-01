@@ -15,7 +15,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - run: npm install
+      - run: npm i -g pnpm && pnpm i
       - uses: kategengler/put-built-npm-package-contents-on-branch@v2.1.0
         with:
           branch: dist-kolay
