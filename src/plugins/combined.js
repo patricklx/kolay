@@ -16,7 +16,7 @@ export function combinedPlugins(options) {
   return [
     setup(),
     apiDocs({ packages: options.packages ?? [], dest: options.dest }),
-    markdownPages({ src: options.src, groups: options.groups, dest: options.dest }),
+    markdownPages({ src: options.src, groups: options.groups, dest: options.dest, baseUrl: options.baseUrl }),
   ];
 }
 
