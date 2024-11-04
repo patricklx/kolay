@@ -13,7 +13,7 @@ const SECRET_INTERNAL_IMPORT = 'kolay/manifest:virtual';
 
 /** @type {(options: import('./types.ts').MarkdownPagesOptions) => import('unplugin').UnpluginOptions} */
 export const markdownPages = (options) => {
-  let { src, dest, name, groups } = options ?? {};
+  let { src, dest, name, groups, baseUrl } = options ?? {};
 
   const destination = dest ?? 'kolay-manifest';
 
@@ -50,15 +50,17 @@ export const markdownPages = (options) => {
       },
       configureServer(s) {
         server = s;
+
         return () => {
           server.middlewares.use(async (req, res, next) => {
             if (req.originalUrl && req.originalUrl.length > 1) {
               const assetUrl = req.originalUrl.split('?')[0] || '';
 
               if (assetUrl === `/${destination}/${name}`) {
-                const reshaped = await discover({ src, groups });
+                const reshaped = await discover({ src, groups, baseUrl });
 
                 res.setHeader('content-type', 'application/json');
+
                 return res.end(JSON.stringify(reshaped, null, 2));
               }
 
@@ -67,11 +69,13 @@ export const markdownPages = (options) => {
                 const g = groups.find((group) => {
                   // discover mutates the groups array
                   if (group.name === 'root') return;
+
                   return group.name === groupName;
                 });
 
                 if (g) {
                   const filePath = resolve(g.src, assetUrl.split('/').slice(3).join('/'));
+
                   return send(req, filePath).pipe(res);
                 }
               }
@@ -94,7 +98,7 @@ export const markdownPages = (options) => {
 
       if (server) return;
 
-      const reshaped = await discover({ src, groups });
+      const reshaped = await discover({ src, groups, baseUrl });
 
       if (groups) {
         groups.forEach((group) => {
@@ -138,7 +142,7 @@ export const markdownPages = (options) => {
       importPath: SECRET_INTERNAL_IMPORT,
       content: stripIndent`
           export const load = async () => {
-            let request = await fetch('/${fileName}', {
+            let request = await fetch('${baseUrl || '/'}${fileName}', {
               headers: {
                 Accept: 'application/json',
               },

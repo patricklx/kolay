@@ -50,12 +50,15 @@ export const apiDocs = (options) => {
 
               const pkg = options.packages.find((pkgName) => {
                 let dest = '/' + getDest(pkgName);
+
                 return dest === assetUrl;
               });
 
               if (pkg) {
                 let data = await generateTypeDocJSON({ packageName: pkg });
+
                 res.setHeader('content-type', 'application/json');
+
                 return res.end(JSON.stringify(data));
               }
             }

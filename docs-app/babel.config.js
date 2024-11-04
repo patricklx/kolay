@@ -1,13 +1,8 @@
-const {
-  babelCompatSupport,
-  templateCompatSupport,
-} = require('@embroider/compat/babel');
+const { babelCompatSupport, templateCompatSupport } = require('@embroider/compat/babel');
 
 module.exports = {
   plugins: [
-    [
-      "@babel/plugin-transform-typescript", { allowDeclareFields: true }
-    ],
+    ['@babel/plugin-transform-typescript', { allowDeclareFields: true }],
     [
       'babel-plugin-ember-template-compilation',
       {

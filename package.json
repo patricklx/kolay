@@ -50,19 +50,12 @@
       "types": "./declarations/vite.d.ts",
       "import": "./src/vite.js"
     },
-    "./setup": {
-      "types": "./src/browser/virtual/setup.d.ts",
-      "default": "./src/browser/virtual/does-not-exist.js"
-    },
-    "./test-support": {
-      "types": "./src/browser/test-support.d.ts",
-      "default": "./src/browser/test-support.js"
-    },
     "./build/legacy": {
       "types": "./declarations/plugins/legacy/index.d.cts",
       "default": "./src/plugins/legacy/index.cjs"
     },
     "./*": {
+      "types": "./src/browser/virtual/*",
       "default": "./src/does-not-exist/*"
     }
   },
@@ -112,7 +105,8 @@
     "json5": "^2.2.3",
     "package-up": "^5.0.0",
     "typedoc": "^0.26.3",
-    "unplugin": "^1.10.2"
+    "unplugin": "^1.10.2",
+    "send": "^1.1.0"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.15.0",
@@ -143,7 +137,6 @@
     "publint": "^0.2.7",
     "reactiveweb": "^1.2.1",
     "release-plan": "^0.9.0",
-    "send": "^1.1.0",
     "tracked-built-ins": "^3.3.0",
     "turbo": "^1.13.3",
     "typescript": "^5.3.3",

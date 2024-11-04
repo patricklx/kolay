@@ -10,11 +10,16 @@ const USE_WEBPACK = Boolean(process.env.WEBPACK);
 module.exports = async function (defaults) {
   if (!USE_WEBPACK) {
     const app = new EmberApp(defaults, {
-      // Add options here
+      'ember-cli-babel': {
+        disableDecoratorTransforms: true,
+        enableTypeScriptTransform: true,
+      },
     });
 
     return maybeEmbroider(app);
   }
+
+  const { readPackageUpSync } = await import('read-package-up');
 
   const app = new EmberApp(defaults, {
     // Add options here
@@ -48,7 +53,7 @@ module.exports = async function (defaults) {
     },
     'ember-cli-babel': {
       disableDecoratorTransforms: true,
-      enableTypeScriptTransform: true
+      enableTypeScriptTransform: true,
     },
     autoImport: {
       watchedDependencies: ['kolay', '@universal-ember/kolay-ui'],

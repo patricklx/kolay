@@ -1,30 +1,23 @@
-import { defineConfig } from 'vite';
 import {
-  resolver,
+  assets,
+  compatPrebuild,
+  contentFor,
   hbs,
+  optimizeDeps,
+  resolver,
   scripts,
   templateTag,
-  optimizeDeps,
-  compatPrebuild,
-  assets,
-  contentFor,
-} from '@embroider/vite';
-import { babel } from '@rollup/plugin-babel';
-import { kolay } from "kolay/vite";
+} from "@embroider/vite";
 
-const extensions = [
-  '.mjs',
-  '.gjs',
-  '.js',
-  '.mts',
-  '.gts',
-  '.ts',
-  '.hbs',
-  '.json',
-];
+import { babel } from "@rollup/plugin-babel";
+import { kolay } from "kolay/vite";
+import { defineConfig } from "vite";
+
+const extensions = [".mjs", ".gjs", ".js", ".mts", ".gts", ".ts", ".hbs", ".json"];
 
 const optimizeOpts = optimizeDeps();
-optimizeOpts.esbuildOptions.target = 'esnext';
+
+optimizeOpts.esbuildOptions.target = "esnext";
 
 export default defineConfig(({ mode }) => {
   return {
@@ -51,7 +44,7 @@ export default defineConfig(({ mode }) => {
       contentFor(),
 
       babel({
-        babelHelpers: 'runtime',
+        babelHelpers: "runtime",
         extensions,
       }),
     ],
@@ -60,22 +53,21 @@ export default defineConfig(({ mode }) => {
       port: 4200,
       watch: {
         ignored: [
-          '!**/node_modules/**',
+          "!**/node_modules/**",
           (p) => {
-            return p.includes('node_modules') && !p.includes('@universal-ember/kolay-ui');
+            return p.includes("node_modules") && !p.includes("@universal-ember/kolay-ui");
           },
-        ]
-      }
+        ],
+      },
     },
     build: {
-      target: 'esnext',
-      outDir: 'dist',
+      sourcemap: "inline",
+      target: "esnext",
+      outDir: "dist",
       rollupOptions: {
         input: {
-          main: 'index.html',
-          ...(shouldBuildTests(mode)
-            ? { tests: 'tests/index.html' }
-            : undefined),
+          main: "index.html",
+          ...(shouldBuildTests(mode) ? { tests: "tests/index.html" } : undefined),
         },
       },
     },
@@ -83,5 +75,5 @@ export default defineConfig(({ mode }) => {
 });
 
 function shouldBuildTests(mode) {
-  return mode !== 'production' || process.env.FORCE_BUILD_TESTS;
+  return mode !== "production" || process.env.FORCE_BUILD_TESTS;
 }
