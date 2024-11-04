@@ -45,6 +45,11 @@ export default class Selected extends Service {
   @service declare router: RouterService;
   @service('kolay/docs') declare docs: DocsService;
 
+  get config() {
+    // @ts-ignore
+    return getOwner(this).resolveRegistration('config:environment')
+  }
+
   /*********************************************************************
    * These load the files from /public and handle loading / error state.
    *
@@ -52,7 +57,7 @@ export default class Selected extends Service {
    * be cancelled if it was still pending.
    *******************************************************************/
 
-  @link request = new MDRequest(() => `/docs${this.path}.md`);
+  @link request = new MDRequest(() => `${this.config.rootUrl}/docs${this.path}.md`);
   @link compiled = new Prose(() => this.request.lastSuccessful);
 
   get proseCompiled() {
