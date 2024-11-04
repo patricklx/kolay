@@ -57,7 +57,7 @@ export const markdownPages = (options) => {
               const assetUrl = req.originalUrl.split('?')[0] || '';
 
               if (assetUrl === `/${destination}/${name}`) {
-                const reshaped = await discover({ src, groups });
+                const reshaped = await discover({ src, groups, baseUrl });
 
                 res.setHeader('content-type', 'application/json');
 
@@ -98,7 +98,7 @@ export const markdownPages = (options) => {
 
       if (server) return;
 
-      const reshaped = await discover({ src, groups });
+      const reshaped = await discover({ src, groups, baseUrl });
 
       if (groups) {
         groups.forEach((group) => {
