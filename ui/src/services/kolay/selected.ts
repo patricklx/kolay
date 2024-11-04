@@ -10,6 +10,7 @@ import { MDRequest } from './request.ts';
 import type DocsService from './docs';
 import type { Page } from './types';
 import type RouterService from '@ember/routing/router-service';
+import { getOwner } from '@ember/owner';
 
 /**
  * Populate a cache of all the documents.
