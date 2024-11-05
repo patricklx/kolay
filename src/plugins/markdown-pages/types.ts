@@ -6,7 +6,6 @@ export type Node = Page | Collection;
 export type GatheredDocs = Array<{ mdPath: string; config?: object }>;
 
 export interface MarkdownPagesOptions {
-  baseUrl: string;
   src?: string | undefined;
   groups: {
     name: string;
