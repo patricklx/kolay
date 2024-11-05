@@ -13,7 +13,7 @@ const SECRET_INTERNAL_IMPORT = 'kolay/manifest:virtual';
 
 /** @type {(options: import('./types.ts').MarkdownPagesOptions) => import('unplugin').UnpluginOptions} */
 export const markdownPages = (options) => {
-  let { src, dest, name, groups, baseUrl } = options ?? {};
+  let { src, dest, name, groups } = options ?? {};
 
   const destination = dest ?? 'kolay-manifest';
 
@@ -36,6 +36,7 @@ export const markdownPages = (options) => {
    * @type {import('vite').ViteDevServer}
    */
   let server;
+  let baseUrl = '/';
 
   return {
     name: 'kolay:markdown-docs',
@@ -48,6 +49,9 @@ export const markdownPages = (options) => {
           });
         }
       },
+      configResolved(resolvedConfig) {
+        baseUrl = resolvedConfig.base;
+      },
       configureServer(s) {
         server = s;
 
@@ -56,7 +60,7 @@ export const markdownPages = (options) => {
             if (req.originalUrl && req.originalUrl.length > 1) {
               const assetUrl = req.originalUrl.split('?')[0] || '';
 
-              if (assetUrl === `/${destination}/${name}`) {
+              if (assetUrl === `${baseUrl}${destination}/${name}`) {
                 const reshaped = await discover({ src, groups, baseUrl });
 
                 res.setHeader('content-type', 'application/json');
@@ -64,8 +68,8 @@ export const markdownPages = (options) => {
                 return res.end(JSON.stringify(reshaped, null, 2));
               }
 
-              if (groups && assetUrl.startsWith('/docs')) {
-                const groupName = assetUrl.split('/')[2];
+              if (groups && assetUrl.slice(baseUrl.length - 1).startsWith('/docs')) {
+                const groupName = assetUrl.slice(baseUrl.length - 1).split('/')[2];
                 const g = groups.find((group) => {
                   // discover mutates the groups array
                   if (group.name === 'root') return;

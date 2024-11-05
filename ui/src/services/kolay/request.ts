@@ -57,7 +57,7 @@ export class MDRequest {
   private get _doesPageExist() {
     let url = this.urlFn();
     let pagePath = url
-      .replace(this.config.rootURL, '')
+      .slice(this.config.rootURL.length - 1)
       .replace(OUTPUT_PREFIX_REGEX, '/');
     let group = this.docs.groupForURL(pagePath);
 

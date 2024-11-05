@@ -58,7 +58,7 @@ export default class Selected extends Service {
    * be cancelled if it was still pending.
    *******************************************************************/
 
-  @link request = new MDRequest(() => `${this.config.rootURL}/docs${this.path}.md`);
+  @link request = new MDRequest(() => `${this.config.rootURL}docs${this.path}.md`);
   @link compiled = new Prose(() => this.request.lastSuccessful);
 
   get proseCompiled() {
