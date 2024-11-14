@@ -1,0 +1,1 @@
+{"version":3,"file":"component.d.ts","sourceRoot":"","sources":["../../../src/typedoc/signature/component.ts"],"names":[],"mappings":"AAKA,OAAO,KAAK,EAAE,GAAG,EAAE,MAAM,gCAAgC,CAAC;AAuG1D,eAAO,MAAM,kBAAkB,EAAE,GAAG,CAAC;IACnC,IAAI,EAAE;QACJ;;WAEG;QACH,MAAM,EAAE,MAAM,CAAC;QACf;;WAEG;QACH,IAAI,EAAE,MAAM,CAAC;QACb;;WAEG;QACH,OAAO,EAAE,MAAM,CAAC;KACjB,CAAC;CACH,CA6BC,CAAC"}
