@@ -57,7 +57,7 @@ export async function generateTypeDocJSON({ packageName }) {
 
   const tsConfig = {
     extends: extendsTsConfig,
-    include: absoluteResolved.map((entry) => dirname(entry)),
+    include: absoluteResolved,
     compilerOptions: {
       baseUrl: typeInfo.dir,
       noEmitOnError: false,
