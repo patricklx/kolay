@@ -61,8 +61,14 @@ function listifyArgs(info: DeclarationReflection): any[] {
     return info.children;
   }
 
-  if (info.type && 'declaration' in info.type && info.type.declaration) {
-    return listifyArgs(info.type.declaration);
+  let declaration = info.type?.declaration;
+
+  if (info.type?.type === 'reference') {
+    declaration = info.project.getReflectionById(info.type._target);
+  }
+
+  if (declaration) {
+    return listifyArgs(declaration);
   }
 
   console.warn('unhandled', info);
